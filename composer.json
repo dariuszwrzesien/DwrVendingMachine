@@ -1,0 +1,22 @@
+{
+    "name": "DwrVendingMachine",
+    "description": "Vending machine kata",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Dariusz Wrzesien",
+            "email": "dariuszwrzesien@gmail.com"
+        }
+	],
+	"require" : {
+		"php" : ">=7.1"
+	},
+	"require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+    "autoload": {
+        "psr-0": {
+            "VM": ["src", "tests"]
+        }
+    }
+}
