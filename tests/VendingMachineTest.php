@@ -22,6 +22,7 @@ final class VendingMachineTest extends TestCase
         $product2 = new Product('kola', 1);
         $product3 = new Product('energolek', 1.50);
 
+        // @TODO selector musi być unikatowy,należało by sprawdzać/wymuszać tą unikatowość .
         $inventory = new Inventory(
             new Slot('A', $product1, 10),
             new Slot('B', $product2, 15),
