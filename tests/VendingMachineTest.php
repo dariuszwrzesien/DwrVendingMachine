@@ -10,11 +10,6 @@ use VM\Model\Inventory;
 
 final class VendingMachineTest extends TestCase
 {
-    public function testWrzucamDoMaszynyMonetyWyswietlaczPokazujeMiJakaWartoscWrzucilem(): void
-    {
-        $this->assertTrue(true);
-    }
-
     public function testNaZadanieMaszynaPokazujeMiDostepneProdukty(): void
     {
         //given
@@ -49,5 +44,24 @@ final class VendingMachineTest extends TestCase
 
         //then
         $this->assertEquals($productList, $vm->getProductList());
+    }
+
+    public function testWrzucamDoMaszynyMonetyWyswietlaczPokazujeMiJakaWartoscWrzucilem(): void
+    {
+        //given
+        $slot = new Slot('A', new Product('test', 0.1), 10);
+        $inventory = new Inventory($slot);
+        $vm = new VendingMachine($inventory);
+
+        //when
+        $vm->insertCoin(0.05);
+        $vm->insertCoin(0.05);
+        $vm->insertCoin(0.10);
+        $vm->insertCoin(0.25);
+        $vm->insertCoin(0.25);
+        $vm->insertCoin(1.00);
+
+        //then
+        $this->assertEquals(1.70, $vm->getCredit());
     }
 }

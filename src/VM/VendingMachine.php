@@ -17,6 +17,11 @@ class VendingMachine
     private $inventory;
 
     /**
+     * @var float
+     */
+    private $credit = 0;
+
+    /**
      * VendingMachine constructor.
      * @param Inventory $inventory
      */
@@ -24,8 +29,8 @@ class VendingMachine
         $this->inventory = $inventory;
     }
 
-    public function insertCoin(float $amount) {
-
+    public function insertCoin(float $nominal): void {
+        $this->credit += $nominal;
     }
 
     /**
@@ -38,5 +43,9 @@ class VendingMachine
         }
 
         return $productList;
+    }
+
+    public function getCredit(): float {
+        return $this->credit;
     }
 }
