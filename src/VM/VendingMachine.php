@@ -3,15 +3,36 @@ declare(strict_types=1);
 
 namespace VM;
 
+use VM\Model\Inventory;
+
+/**
+ * Class VendingMachine
+ * @package VM
+ */
 class VendingMachine
 {
-    private $products;
+    /**
+     * @var Inventory
+     */
+    private $inventory;
 
-    public function __construct(array $products) {
-        $this->products = $products;
+    /**
+     * VendingMachine constructor.
+     * @param Inventory $inventory
+     */
+    public function __construct(Inventory $inventory) {
+        $this->inventory = $inventory;
     }
 
-    public function getProducts() {
-        return $this->products;
+    /**
+     * @return array
+     */
+    public function getProductList(): array {
+        $productList = [];
+        foreach($this->inventory as $slot) {
+            $productList[] = ['product' => $slot->product(), 'amount' => $slot->amount()];
+        }
+
+        return $productList;
     }
 }
