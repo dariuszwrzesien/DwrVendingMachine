@@ -10,6 +10,11 @@ namespace VM\Model;
 class Slot
 {
     /**
+     * @var string
+     */
+    private $selector;
+
+    /**
      * @var Product
      */
     private $product;
@@ -19,10 +24,18 @@ class Slot
      */
     private $amount;
 
-    public function __construct(Product $product, int $amount)
+    public function __construct(string $selector, Product $product, int $amount)
     {
         $this->product = $product;
         $this->amount = $amount;
+        $this->selector = $selector;
+    }
+
+    /**
+     * @return Product
+     */
+    public function selector(): string {
+        return $this->selector;
     }
 
     /**

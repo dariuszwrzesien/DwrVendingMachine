@@ -24,13 +24,17 @@ class VendingMachine
         $this->inventory = $inventory;
     }
 
+    public function insertCoin(float $amount) {
+
+    }
+
     /**
      * @return array
      */
     public function getProductList(): array {
         $productList = [];
         foreach($this->inventory as $slot) {
-            $productList[] = ['product' => $slot->product(), 'amount' => $slot->amount()];
+            $productList[$slot->selector()] = ['product' => $slot->product(), 'amount' => $slot->amount()];
         }
 
         return $productList;

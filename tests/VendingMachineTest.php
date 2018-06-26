@@ -23,21 +23,21 @@ final class VendingMachineTest extends TestCase
         $product3 = new Product('energolek', 1.50);
 
         $inventory = new Inventory(
-            new Slot($product1, 10),
-            new Slot($product2, 15),
-            new Slot($product3, 20)
+            new Slot('A', $product1, 10),
+            new Slot('B', $product2, 15),
+            new Slot('C', $product3, 20)
         );
 
         $productList = [
-            [
+            'A' => [
                 'product' => $product1,
                 'amount' => 10
             ],
-            [
+            'B' => [
                 'product' => $product2,
                 'amount' => 15
             ],
-            [
+            'C' => [
                 'product' => $product3,
                 'amount' => 20
             ],
