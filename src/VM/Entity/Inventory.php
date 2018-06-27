@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace VM\Model;
+namespace VM\Entity;
 
 /**
  * Class Inventory
- * @package VM\Model
+ * @package VM\Entity
  */
 class Inventory implements \IteratorAggregate
 {
@@ -18,7 +18,8 @@ class Inventory implements \IteratorAggregate
      * Inventory constructor.
      * @param Slot ...$slots
      */
-    public function __construct(Slot ...$slots) {
+    public function __construct(Slot ...$slots)
+    {
         foreach($slots as $slot) {
             $this->slots[] = $slot;
         }

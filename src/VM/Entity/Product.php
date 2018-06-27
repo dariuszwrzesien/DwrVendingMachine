@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace VM\Model;
+namespace VM\Entity;
 
 /**
  * Class Product
- * @package VM\Model
+ * @package VM\Entity
  */
 class Product
 {

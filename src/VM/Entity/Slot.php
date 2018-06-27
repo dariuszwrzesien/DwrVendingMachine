@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace VM\Model;
+namespace VM\Entity;
 
 /**
  * Class Slot
- * @package VM\Model
+ * @package VM\Entity
  */
 class Slot
 {
@@ -22,7 +22,7 @@ class Slot
     /**
      * @var int
      */
-    private $amount;
+    private $amount = 0;
 
     public function __construct(string $selector, Product $product, int $amount)
     {
@@ -34,21 +34,39 @@ class Slot
     /**
      * @return Product
      */
-    public function selector(): string {
+    public function selector(): string
+    {
         return $this->selector;
     }
 
     /**
      * @return Product
      */
-    public function product(): Product {
+    public function product(): Product
+    {
         return $this->product;
     }
 
     /**
      * @return int
      */
-    public function amount(): int {
+    public function amount(): int
+    {
         return $this->amount;
     }
+
+    public function subtractProduct(): void
+    {
+        $this->amount -= 1;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->amount === 0;
+    }
+
+
 }

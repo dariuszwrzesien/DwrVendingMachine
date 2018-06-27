@@ -4,12 +4,26 @@ declare(strict_types=1);
 namespace VM;
 
 use PHPUnit\Framework\TestCase;
-use VM\Model\Slot;
-use VM\Model\Product;
-use VM\Model\Inventory;
+use VM\Entity\Slot;
+use VM\Entity\Product;
+use VM\Entity\Inventory;
 
 final class VendingMachineTest extends TestCase
 {
+    /**
+     * @var VendingMachine
+     */
+    private $minimalVm;
+
+    public function setUp(): void
+    {
+        $slot = new Slot('A', new Product('test', 0.65), 10);
+        $inventory = new Inventory($slot);
+        $vm = new VendingMachine($inventory);
+
+        $this->minimalVm = $vm;
+    }
+
     public function testNaZadanieMaszynaPokazujeMiDostepneProdukty(): void
     {
         //given
@@ -43,46 +57,46 @@ final class VendingMachineTest extends TestCase
         $vm = new VendingMachine($inventory);
 
         //then
-        $this->assertEquals($productList, $vm->getProductList());
+        $this->assertEquals($productList, $vm->inventory()->getProductList());
     }
 
     public function testWrzucamDoMaszynyMonetyWyswietlaczPokazujeMiJakaWartoscWrzucilem(): void
     {
-        //given
-        $slot = new Slot('A', new Product('test', 0.1), 10);
-        $inventory = new Inventory($slot);
-        $vm = new VendingMachine($inventory);
-
         //when
-        $vm->insertCoin(Coin::NICKEL);
-        $vm->insertCoin(Coin::NICKEL);
-        $vm->insertCoin(Coin::DIME);
-        $vm->insertCoin(Coin::QUARTER);
-        $vm->insertCoin(Coin::QUARTER);
-        $vm->insertCoin(Coin::DOLLAR);
+        $this->minimalVm->insertCoin(Coin::NICKEL);
+        $this->minimalVm->insertCoin(Coin::NICKEL);
+        $this->minimalVm->insertCoin(Coin::DIME);
+        $this->minimalVm->insertCoin(Coin::QUARTER);
+        $this->minimalVm->insertCoin(Coin::QUARTER);
+        $this->minimalVm->insertCoin(Coin::DOLLAR);
 
         //then
-        $this->assertEquals(1.70, $vm->displayCredits());
+        $this->assertEquals(1.70, $this->minimalVm->displayCredits());
     }
 
     public function testPoWrzuceniuDoMaszynyMonetNaciskamPrzyciskZwrotMonetAutomatWydajeMonety(): void
     {
-        //given
-        $slot = new Slot('A', new Product('test', 0.1), 10);
-        $inventory = new Inventory($slot);
-        $vm = new VendingMachine($inventory);
-
         //when
-        $vm->insertCoin(Coin::NICKEL);
-        $vm->insertCoin(Coin::NICKEL);
-        $vm->insertCoin(Coin::DIME);
-        $vm->insertCoin(Coin::QUARTER);
-        $vm->insertCoin(Coin::QUARTER);
-        $vm->insertCoin(Coin::DOLLAR);
+        $this->minimalVm->insertCoin(Coin::QUARTER);
+        $this->minimalVm->insertCoin(Coin::QUARTER);
+        $this->minimalVm->insertCoin(Coin::DOLLAR);
 
         //then
-        $this->assertEquals(1.70, $vm->returnCredits());
-        $this->assertEquals(0, $vm->displayCredits());
+        $this->assertEquals(1.50, $this->minimalVm->returnCredits());
+        $this->assertEquals(0, $this->minimalVm->displayCredits());
+    }
 
+    public function testPoWrzuceniuOdpowiedniejIlosciMonetIWybraniuProduktuInwentarzZostajePomniejszonyOZakupionyTowar(): void
+    {
+        //when
+        $selector = 'A';
+        $this->minimalVm->insertCoin(Coin::DOLLAR);
+        $this->minimalVm->buyProduct($selector);
+
+        //then
+        $this->assertEquals(0.35, $this->minimalVm->displayCredits());
+
+        $slotInfo = $this->minimalVm->inventory()->getProductList()[$selector];
+        $this->assertEquals(9, $slotInfo['amount']);
     }
 }

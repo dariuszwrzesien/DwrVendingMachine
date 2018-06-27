@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace VM;
 
-use VM\Model\Inventory;
+use VM\Entity\Inventory;
+use VM\Service\InventoryService;
 
 /**
  * Class VendingMachine
@@ -12,7 +13,7 @@ use VM\Model\Inventory;
 class VendingMachine
 {
     /**
-     * @var Inventory
+     * @var InventoryService
      */
     private $inventory;
 
@@ -25,30 +26,35 @@ class VendingMachine
      * VendingMachine constructor.
      * @param Inventory $inventory
      */
-    public function __construct(Inventory $inventory) {
-        $this->inventory = $inventory;
+    public function __construct(Inventory $inventory)
+    {
+        $this->inventory = new InventoryService($inventory);
+    }
+
+    /**
+     * @return InventoryService
+     */
+    public function inventory()
+    {
+        return $this->inventory;
     }
 
     /**
      * @param float $coin
      */
-    public function insertCoin(float $coin): void {
+    public function insertCoin(float $coin): void
+    {
         $this->credit += $coin;
     }
 
-    /**
-     * @return array
-     */
-    public function getProductList(): array {
-        $productList = [];
-        foreach($this->inventory as $slot) {
-            $productList[$slot->selector()] = [
-                'product' => $slot->product(),
-                'amount' => $slot->amount()
-            ];
+    public function buyProduct(string $selector): void {
+        $slot = $this->inventory->getSlotBySelector($selector);
+        if ($this->credit >= $slot->product()->price()){
+            if(!$slot->isEmpty()){
+                $slot->subtractProduct();
+                $this->credit -= $slot->product()->price();
+            }
         }
-
-        return $productList;
     }
 
     /**
