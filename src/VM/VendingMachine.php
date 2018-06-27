@@ -29,8 +29,11 @@ class VendingMachine
         $this->inventory = $inventory;
     }
 
-    public function insertCoin(float $nominal): void {
-        $this->credit += $nominal;
+    /**
+     * @param float $coin
+     */
+    public function insertCoin(float $coin): void {
+        $this->credit += $coin;
     }
 
     /**
@@ -39,13 +42,29 @@ class VendingMachine
     public function getProductList(): array {
         $productList = [];
         foreach($this->inventory as $slot) {
-            $productList[$slot->selector()] = ['product' => $slot->product(), 'amount' => $slot->amount()];
+            $productList[$slot->selector()] = [
+                'product' => $slot->product(),
+                'amount' => $slot->amount()
+            ];
         }
 
         return $productList;
     }
 
-    public function getCredit(): float {
+    /**
+     * @return float
+     */
+    public function displayCredits(): float {
         return $this->credit;
+    }
+
+    /**
+     * @return float
+     */
+    public function returnCredits(): float {
+        $credit = $this->credit;
+        $this->credit = 0;
+
+        return $credit;
     }
 }

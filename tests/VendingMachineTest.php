@@ -54,14 +54,35 @@ final class VendingMachineTest extends TestCase
         $vm = new VendingMachine($inventory);
 
         //when
-        $vm->insertCoin(0.05);
-        $vm->insertCoin(0.05);
-        $vm->insertCoin(0.10);
-        $vm->insertCoin(0.25);
-        $vm->insertCoin(0.25);
-        $vm->insertCoin(1.00);
+        $vm->insertCoin(Coin::NICKEL);
+        $vm->insertCoin(Coin::NICKEL);
+        $vm->insertCoin(Coin::DIME);
+        $vm->insertCoin(Coin::QUARTER);
+        $vm->insertCoin(Coin::QUARTER);
+        $vm->insertCoin(Coin::DOLLAR);
 
         //then
-        $this->assertEquals(1.70, $vm->getCredit());
+        $this->assertEquals(1.70, $vm->displayCredits());
+    }
+
+    public function testPoWrzuceniuDoMaszynyMonetNaciskamPrzyciskZwrotMonetAutomatWydajeMonety(): void
+    {
+        //given
+        $slot = new Slot('A', new Product('test', 0.1), 10);
+        $inventory = new Inventory($slot);
+        $vm = new VendingMachine($inventory);
+
+        //when
+        $vm->insertCoin(Coin::NICKEL);
+        $vm->insertCoin(Coin::NICKEL);
+        $vm->insertCoin(Coin::DIME);
+        $vm->insertCoin(Coin::QUARTER);
+        $vm->insertCoin(Coin::QUARTER);
+        $vm->insertCoin(Coin::DOLLAR);
+
+        //then
+        $this->assertEquals(1.70, $vm->returnCredits());
+        $this->assertEquals(0, $vm->displayCredits());
+
     }
 }
