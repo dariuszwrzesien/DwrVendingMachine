@@ -24,7 +24,8 @@ class Product
      * @param string $name
      * @param int $price
      */
-    public function __construct(string $name, int $price) {
+    public function __construct(string $name, int $price)
+    {
         $this->name = $name;
         $this->price = $price;
     }
@@ -32,14 +33,16 @@ class Product
     /**
      * @return string
      */
-    public function name(): string {
+    public function name(): string
+    {
         return $this->name;
     }
 
     /**
-     * @return float
+     * @return int
      */
-    public function price(): int {
+    public function price(): int
+    {
         return $this->price;
     }
 }
