@@ -15,16 +15,16 @@ class Product
     private $name;
 
     /**
-     * @var float
+     * @var int
      */
     private $price;
 
     /**
      * Product constructor.
      * @param string $name
-     * @param float $price
+     * @param int $price
      */
-    public function __construct(string $name, float $price) {
+    public function __construct(string $name, int $price) {
         $this->name = $name;
         $this->price = $price;
     }
@@ -39,7 +39,7 @@ class Product
     /**
      * @return float
      */
-    public function price(): float {
+    public function price(): int {
         return $this->price;
     }
 }
